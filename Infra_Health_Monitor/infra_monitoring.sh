@@ -21,7 +21,7 @@ else
 fi
 
 # Memory usage
-MEM_USAGE=$(free | awk '/Mem/ {print int($3/$2 * 100)}')
+MEM_USAGE=$(free | grep Mem | awk '{print int($3/$2 * 100)}')
 
 if [ "$MEM_USAGE" -gt "$THRESHOLD_MEM" ]; then
   echo "[ALERT] High Memory Usage: $MEM_USAGE%"
