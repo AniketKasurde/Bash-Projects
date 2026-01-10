@@ -9,6 +9,6 @@ The script displays results in real time and saves timestamped logs for auditing
 
 #2. Log Cleanup Script
 
-A Bash script that performs log cleanup from '/vr/log' which deletes logs older than 7 days.
+A Bash script that performs log cleanup from '/var/log' which deletes logs older than 7 days.
 
 ================ 
