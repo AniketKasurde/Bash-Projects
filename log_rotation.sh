@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+
+LOG_DIR="/var/log"
+ARCHIVE_DIR="/var/log/archive"
+RETENTION=7
+TIMESTAMP=$(date +%Y-%m-%d_%H-%M)
+
+# check for root user.
+
+if [ "$EUID" -ne 0 ]; then
+echo "run this script as root user"
+fi
+
+echo "starting log rotation at $(date)"
+
+# create archive directory if missing.
+
+mkdir -p "$ARCHIVE_DIR"
+
+# rotate .log files.
+
+for LOG_FILE in "$LOG_DIR"/*.log; do
+  [ -f "$LOG_FILE" ] || continue
+
+  BASENAME=$(basename "$LOG_FILE")
+
+  mv "$LOG_FILE" "$ARCHIVE_DIR/${BASENAME}_${TIMESTAMP}"
+  touch "$LOG_FILE"
+
+  echo "Rotated log: $BASENAME"
+done
+
+# compress archived logs
+
+for FILE in "$ARCHIVE_DIR"/*; do
+  [ -f "$FILE" ] || continue
+
+  if [[ "$FILE" != *.gz ]]; then
+    gzip "$FILE"
+    echo "Compressed: $(basename "$FILE")"
+  fi
+done
+
+# cleanup old archived logs
+find "$ARCHIVE_DIR" -type f -name "*.gz" -mtime +$RETENTION -delete
+
