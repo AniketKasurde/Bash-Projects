@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#==============================
+# Author: Aniket K.
+# date: 10-01-2026
+# This script performs log rotation.
+#==============================
+
+
 LOG_DIR="/var/log"
 ARCHIVE_DIR="/var/log/archive"
 RETENTION=7

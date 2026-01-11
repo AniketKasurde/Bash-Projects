@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
 
+#==============================
+#Author: Aniket K.
+#date: 10-01-2026
+# This script performs log cleanup of old logs.
+#==============================
+
+
 LOG_DIR="/var/log"
 LOG_PATTERN="*.log"
 RETENTION=7

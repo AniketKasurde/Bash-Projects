@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+#==============================
+# Author: Aniket K.
+# date: 09-01-2026
+# this script performs CPU, Memory, Disk & Network health check.
+#==============================
+
 THRESHOLD_CPU=80
 THRESHOLD_MEM=80
 THRESHOLD_DISK=90
