@@ -8,7 +8,8 @@ TIMESTAMP=$(date +%Y-%m-%d_%H-%M)
 # check for root user.
 
 if [ "$EUID" -ne 0 ]; then
-echo "run this script as root user"
+  echo "run this script as root user"
+  exit 1
 fi
 
 echo "starting log rotation at $(date)"
@@ -32,15 +33,12 @@ done
 
 # compress archived logs
 
-for FILE in "$ARCHIVE_DIR"/*; do
-  [ -f "$FILE" ] || continue
-
-  if [[ "$FILE" != *.gz ]]; then
-    gzip "$FILE"
-    echo "Compressed: $(basename "$FILE")"
-  fi
-done
+echo "Compressing logs..."
+find "$ARCHIVE_DIR" -type f -name "*.log" -exec gzip {} \;
 
 # cleanup old archived logs
+
+echo "deleting logs older than $RETENTION days..."
 find "$ARCHIVE_DIR" -type f -name "*.gz" -mtime +$RETENTION -delete
 
+echo "Log rotation completed successfully."
